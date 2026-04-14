@@ -1,0 +1,17 @@
+services:
+  bridge:
+    image: oven/bun:1
+    container_name: openmaic-publish-bridge
+    working_dir: /app
+    command: ["bun", "run", "scripts/openmaic_publish_bridge_server.ts"]
+    restart: unless-stopped
+    env_file:
+      - .env.local
+    environment:
+      HOST: ${HOST:-0.0.0.0}
+      PORT: ${PORT:-3101}
+    volumes:
+      - .:/app
+      - ./data:/app/data:ro
+    ports:
+      - "${PORT:-3101}:3101"

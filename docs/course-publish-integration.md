@@ -85,6 +85,12 @@ node scripts/course-publish-smoke.mjs commit
 bun run scripts/openmaic_publish_bridge_server.ts
 ```
 
+或者直接用独立 compose：
+
+```bash
+docker compose -f docker-compose.publish-bridge.yml up -d
+```
+
 默认监听：
 
 - `GET /health`
@@ -92,6 +98,32 @@ bun run scripts/openmaic_publish_bridge_server.ts
 - `POST /api/classroom/publish-course`
 
 默认端口是 `3101`，可通过 `HOST` / `PORT` 覆盖。
+
+### 挂到现有课程域名
+
+如果要把这条轻量桥接直接挂到 `course.aiwinhub.com` 现有入口下，而不是单独给 OpenMAIC 再配一个域名，推荐路径：
+
+```text
+https://course.aiwinhub.com/openmaic-bridge/*
+```
+
+对应反向代理只需要把：
+
+```text
+/openmaic-bridge/*
+```
+
+转发到：
+
+```text
+openmaic-publish-bridge:3101
+```
+
+这样做的价值是：
+
+- 不依赖 OpenMAIC 现有托管平台权限
+- 不影响 `course.aiwinhub.com` 现有 `/api/*` 主路径
+- 可先完成生产联调，再决定是否迁回独立 OpenMAIC 域名
 
 ## 3. manifest 结构约定
 

@@ -148,6 +148,14 @@ cp .env.example .env.local
 docker compose up --build
 ```
 
+如果你当前只需要对外提供 `publish-manifest / publish-course`，不需要完整 OpenMAIC 前端，可以直接启动轻量桥接：
+
+```bash
+cp .env.example .env.local
+# 编辑 .env.local 填入 COURSE_PLATFORM_*，然后：
+docker compose -f docker-compose.publish-bridge.yml up -d
+```
+
 ### 可选：发布到 course.aiwinhub.com
 
 如果你要把 OpenMAIC 生成的课堂发布到 `course` 交付平台，而不是只停留在本地 classroom，可以额外配置：
@@ -162,6 +170,7 @@ COURSE_PLATFORM_SHARED_SECRET=replace-with-a-long-random-secret
 
 - `GET /api/classroom/publish-manifest?id=<classroomId>` 导出发布清单
 - `POST /api/classroom/publish-course` 执行 `preview / commit`
+- `GET /health` 做桥接健康检查
 
 详细说明见：
 
