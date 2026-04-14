@@ -77,6 +77,22 @@ node scripts/course-publish-smoke.mjs commit
 - `preview` 返回 `HTTP 200`
 - `commit` 返回 `HTTP 201`
 
+### 轻量桥接服务
+
+如果当前不需要完整 OpenMAIC 前端，只需要把已有 `classroom` 数据对外暴露成发布接口，可以直接启动轻量桥接服务：
+
+```bash
+bun run scripts/openmaic_publish_bridge_server.ts
+```
+
+默认监听：
+
+- `GET /health`
+- `GET /api/classroom/publish-manifest?id=<classroomId>`
+- `POST /api/classroom/publish-course`
+
+默认端口是 `3101`，可通过 `HOST` / `PORT` 覆盖。
+
 ## 3. manifest 结构约定
 
 当前版本：
