@@ -148,6 +148,32 @@ cp .env.example .env.local
 docker compose up --build
 ```
 
+### 可选：发布到 course.aiwinhub.com
+
+如果你要把 OpenMAIC 生成的课堂发布到 `course` 交付平台，而不是只停留在本地 classroom，可以额外配置：
+
+```env
+COURSE_PLATFORM_BASE_URL=https://course.aiwinhub.com
+COURSE_PLATFORM_TENANT_ID=tenant_default
+COURSE_PLATFORM_SHARED_SECRET=replace-with-a-long-random-secret
+```
+
+然后使用：
+
+- `GET /api/classroom/publish-manifest?id=<classroomId>` 导出发布清单
+- `POST /api/classroom/publish-course` 执行 `preview / commit`
+
+详细说明见：
+
+- [docs/course-publish-integration.md](docs/course-publish-integration.md)
+
+如果环境变量已经配置好，也可以直接运行上游冒烟脚本：
+
+```bash
+node scripts/course-publish-smoke.mjs preview
+node scripts/course-publish-smoke.mjs commit
+```
+
 ### 可选：MinerU（增强文档解析）
 
 [MinerU](https://github.com/opendatalab/MinerU) 提供更强的表格、公式和 OCR 解析能力。你可以使用 [MinerU 官方 API](https://mineru.net/) 或[自行部署](https://opendatalab.github.io/MinerU/quick_start/docker_deployment/)。
